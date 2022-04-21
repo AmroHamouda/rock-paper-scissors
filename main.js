@@ -1,61 +1,74 @@
-// computer turn randomly returns either "Rock", "Paper" or "Scissors"
+//Dom variables
+const selections = document.querySelectorAll(".selection");
+const score = document.querySelector(".score");
+const winner = document.querySelector(".winner");
+const result = document.querySelector(".result");
+
+// Make 3 selectors (rock, paper scissors)
+selections.forEach(selection => selection.addEventListener("click", playRound));
+
+// Computer's turn for one round
 function computerPlay() {
     const rockPaperScissor = ["rock", "paper", "scissors"];
     return(rockPaperScissor[Math.floor(Math.random() * 3)]);
 }
-// play one round of rock-paper-scissors
-function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase()
+// Play one round of rock-paper-scissors
+function playRound(e) {
+    let playerSelection = e.currentTarget.value;
+    let computerSelection = computerPlay();
+
+    //Results
     if (playerSelection === computerSelection){
-        return `it's a tie, you both chose ${playerSelection}`
+        result.textContent = `it's a tie, you both chose ${playerSelection}`;
     }else if (playerSelection === "rock" && computerSelection === "paper"){
         lose()
-        return `You lose, paper beats rock`
+        result.textContent = `You lose, paper beats rock`
     } else if (playerSelection === "rock" && computerSelection === "scissors"){
         win()
-        return `You win, rock beats scissors`
+        result.textContent = `You win, rock beats scissors`;
     } else if (playerSelection === "paper" && computerSelection === "scissors"){
         lose()
-        return `You lose, scissors beats paper`
+        result.textContent = `You lose, scissors beats paper`;
     } else if (playerSelection === "paper" && computerSelection === "rock"){
         win()
-        return `You win, paper beats rock`
+        result.textContent = `You win, paper beats rock`;
     } else if (playerSelection === "scissors" && computerSelection === "rock"){
         lose()
-        return `You lose, rock beats scissors`
+        result.textContent = `You lose, rock beats scissors`;
     } else if (playerSelection === "scissors" && computerSelection === "paper"){
         win()
-        return `You win, scissors beats paper`
+        result.textContent = `You win, scissors beats paper`;
     }
+
+    //Score results and winner/loser 
+    score.textContent = `You ${playerCounter} : The Computer ${computerCounter}`
+    if (playerCounter == 5) {
+        winner.textContent = `GAME OVER!!!!
+        YOU WON!`
+        playerCounter = 0
+        computerCounter = 0
+        return  
+    } else if(computerCounter === 5) {
+        winner.textContent = `GAME OVER!!!!
+        YOU LOSE!`
+        playerCounter = 0
+        computerCounter = 0
+        return 
+        
+    }
+    
 };
-//play 5 games of rock-paper-scissors
-function game(playerSelection, computerSelection) {
-    // let counter = 0;
-    for (let i = 1; i <= 5; i++) {
-    playerSelection = prompt("Choose rock or paper or scissors");
-    computerSelection = computerPlay();
-    console.log(playRound(playerSelection, computerSelection));
-    console.log(`You ${playerCounter} : The computer ${computerCounter}`)
-    }
 
-    if (playerCounter > computerCounter){
-        console.log( `You win, the score is ${playerCounter}:${computerCounter}`)
-    } else if (playerCounter < computerCounter) {
-        console.log( `You lose, the score is ${playerCounter}:${computerCounter}`)
-    } else {
-        console.log( `it's a tie, the score is ${playerCounter}:${computerCounter}`)
-    }
-}
-
-
-let win = function(){
-    return playerCounter++
-}
-let lose = function(){
-    return computerCounter++
-}
+//Score Counters
 let playerCounter = 0;
 let computerCounter = 0;
-let playerSelection
-let computerSelection
-game(playerSelection, computerSelection);
+function win(){
+    return playerCounter++
+}
+function lose(){
+    return computerCounter++
+}
+
+
+
+
